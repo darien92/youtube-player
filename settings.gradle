@@ -15,3 +15,6 @@ dependencyResolutionManagement {
 rootProject.name = "YoutubePlayer"
 include ':app'
 include ':core'
+include ':search:ui'
+include ':search:data'
+include ':search:domain'

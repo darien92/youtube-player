@@ -11,10 +11,9 @@ import kotlinx.coroutines.*
 open class BaseViewModel<S: State, A: Action> (
     private val store: Store<S, A>,
 ) : ViewModel() {
-
     val uiState = store.state
 
-    protected val viewModelSafeScope by lazy {
+    private val viewModelSafeScope by lazy {
         viewModelScope + coroutineExceptionHandler
     }
 
