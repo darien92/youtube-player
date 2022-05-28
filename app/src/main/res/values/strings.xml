@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">YoutubePlayer</string>
+    <string name="app_name" translatable="false">YoutubePlayer</string>
+    <string name="youtube_player_icon_description">Youtube Player Icon</string>
 </resources>
