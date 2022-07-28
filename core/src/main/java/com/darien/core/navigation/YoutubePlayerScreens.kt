@@ -1,4 +1,4 @@
-package com.darien.youtubeplayer.navigation
+package com.darien.core.navigation
 
 enum class YoutubePlayerScreens {
     SplashScreen,

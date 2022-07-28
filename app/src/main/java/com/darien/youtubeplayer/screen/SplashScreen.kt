@@ -3,6 +3,7 @@ package com.darien.youtubeplayer.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -10,12 +11,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.darien.youtubeplayer.R
+import com.darien.core.navigation.YoutubePlayerScreens
+import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
+    LaunchedEffect(key1 = true){
+        delay(2000L)
+        navController.popBackStack()
+        navController.navigate(YoutubePlayerScreens.SearchScreen.name)
+    }
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
