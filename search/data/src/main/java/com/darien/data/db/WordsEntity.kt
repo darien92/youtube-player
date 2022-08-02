@@ -12,9 +12,11 @@ data class WordsEntity(
     val word: String,
     val timestamp: Long
 ) {
-    fun fromWordToEntity(word: Word): WordsEntity =
-        WordsEntity(id = word.id, word = word.word, timestamp = word.timestamp)
+    companion object {
+        fun fromWordToEntity(word: Word): WordsEntity =
+            WordsEntity(id = word.id, word = word.word, timestamp = word.timestamp)
+    }
 
-    fun toWordFromEntity(wordsEntity: WordsEntity): Word =
-        Word(id = wordsEntity.id, word = wordsEntity.word, timestamp = wordsEntity.timestamp)
+    fun toWordFromEntity(): Word =
+        Word(id = this.id, word = this.word, timestamp = this.timestamp)
 }
