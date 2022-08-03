@@ -3,4 +3,6 @@ package com.darien.core.redux
 /**
  * Just to define states type
  */
-interface State
+interface State {
+    val error: DomainError?
+}
