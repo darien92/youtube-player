@@ -1,5 +1,6 @@
 package com.darien.domain
 
+import com.darien.core.redux.DomainError
 import com.darien.data.models.Word
 import com.darien.data.repositories.SearchWordRepository
 import com.nhaarman.mockitokotlin2.mock
@@ -16,6 +17,8 @@ internal class SearchReducerTest{
     private val wordStr = "Hello"
     private val mockedWord = Word(id = 123, word = wordStr)
     private val mockedList: MutableList<Word> = ArrayList()
+    private val errorMessage = "Something went wrong"
+    private val mockedError = DomainError(errorCode = 123, errorMessage = errorMessage)
 
     @Before
     fun setUp() {
@@ -81,5 +84,14 @@ internal class SearchReducerTest{
         assertEquals(wordStr, currState.selectedWord)
         assertEquals(expectedState.error, currState.error)
         assertEquals(expectedState.isLoading, currState.isLoading)
+    }
+
+    @Test
+    fun searchReducerTest_whenError_ShouldPropagateTheError(): Unit = runBlocking {
+        val expectedState = initialState.copy(error = mockedError, isLoading = false)
+        val currState = sut.reduce(initialState, SearchActions.Error(error = mockedError))
+        assertEquals(expectedState.isLoading, currState.isLoading)
+        assertEquals(expectedState.error?.errorCode, currState.error?.errorCode)
+        assertEquals(expectedState.error?.errorMessage, currState.error?.errorMessage)
     }
 }

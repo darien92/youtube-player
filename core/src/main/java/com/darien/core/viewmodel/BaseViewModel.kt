@@ -6,17 +6,16 @@ import androidx.lifecycle.viewModelScope
 import com.darien.core.redux.Action
 import com.darien.core.redux.State
 import com.darien.core.redux.Store
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
+import kotlinx.coroutines.*
 
 open class BaseViewModel<S: State, A: Action> (
     private val store: Store<S, A>,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
     val uiState = store.state
 
     private val viewModelSafeScope by lazy {
-        viewModelScope + coroutineExceptionHandler
+        viewModelScope + dispatcher + coroutineExceptionHandler
     }
 
     private val coroutineExceptionHandler by lazy {
@@ -35,7 +34,7 @@ open class BaseViewModel<S: State, A: Action> (
         )
     }
 
-    open fun handleAction(action: A) {
+    protected fun handleAction(action: A) {
         viewModelSafeScope.launch {
             store.dispatch(action)
         }

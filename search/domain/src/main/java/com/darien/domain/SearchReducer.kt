@@ -28,6 +28,9 @@ class SearchReducer @Inject constructor(private val repository: SearchWordReposi
                 repository.saveWord(Word(id = action.wordId, word = action.word))
                 prevState.copy(selectedWord = action.word, word = action.word)
             }
+            is SearchActions.Error -> {
+                prevState.copy(isLoading = false, error = action.error)
+            }
         }
     }
 }

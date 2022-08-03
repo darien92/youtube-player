@@ -1,5 +1,6 @@
 package com.darien.domain
 
+import com.darien.core.redux.DomainError
 import com.darien.data.models.Word
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -14,6 +15,8 @@ internal class SearchStoreTest{
     private val initialState = SearchViewState(error = null, isLoading = false, word = "", selectedWord = "", currWords = ArrayList())
     private val words: MutableList<Word> = ArrayList()
     private val hello = "Hello"
+    private val errorMessage = "Something went wrong"
+    private val mockedError = DomainError(errorCode = 123, errorMessage = errorMessage)
 
     @Before
     fun setUp() {
@@ -25,6 +28,7 @@ internal class SearchStoreTest{
             whenever(reducer.reduce(initialState, SearchActions.WordTyped(word = hello))).thenReturn(initialState.copy(currWords = words, word = hello))
             whenever(reducer.reduce(initialState, SearchActions.WordSelected(word = hello))).thenReturn(initialState.copy(selectedWord = hello))
             whenever(reducer.reduce(initialState, SearchActions.NewWord(wordId = 123, word = hello))).thenReturn(initialState.copy(selectedWord = hello, word = hello))
+            whenever(reducer.reduce(initialState, SearchActions.Error(error = mockedError))).thenReturn(initialState.copy(error = mockedError))
         }
         sut = SearchStore(reducer = reducer)
     }
@@ -64,6 +68,13 @@ internal class SearchStoreTest{
         sut.dispatch(SearchActions.NewWord(wordId = 123, word = hello))
         assertEquals(hello, sut.state.value.word)
         assertEquals(hello, sut.state.value.selectedWord)
+    }
+
+    @Test
+    fun searchStore_whenError_shouldPropagateError(): Unit = runBlocking {
+        testInitialStates()
+        sut.dispatch(SearchActions.Error(error = mockedError))
+        assertEquals(mockedError, sut.state.value.error)
     }
 
     private fun testInitialStates() {
