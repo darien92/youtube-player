@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
  * @param[reducer] A system for taking in the current state, and a new action, and outputting the
  * updated state.
  */
-class Store<S: State, A: Action>(
+open class Store<S: State, A: Action>(
     initialState: S,
     private val reducer: Reducer<S, A>
 ) {
