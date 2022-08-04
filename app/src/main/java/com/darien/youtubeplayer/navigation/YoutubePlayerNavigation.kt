@@ -5,7 +5,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.darien.core.navigation.YoutubePlayerScreens
-import com.darien.ui.SearchScreen
+import com.darien.ui.screens.SearchScreen
+import com.darien.videosui.VideosScreen
 import com.darien.youtubeplayer.screen.SplashScreen
 
 @Composable
@@ -25,6 +26,11 @@ fun YoutubePlayerNavigation() {
             SearchScreen(
                 navController = navController
             )
+        }
+
+        composable(YoutubePlayerScreens.VideosScreen.name + "/{query}") { backStackEntry ->
+            backStackEntry.arguments?.getString("query")
+                ?.let { VideosScreen(navController = navController, videoName = it) }
         }
     }
 }

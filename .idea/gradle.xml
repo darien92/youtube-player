@@ -17,6 +17,8 @@
             <option value="$PROJECT_DIR$/search/data" />
             <option value="$PROJECT_DIR$/search/domain" />
             <option value="$PROJECT_DIR$/search/ui" />
+            <option value="$PROJECT_DIR$/videos" />
+            <option value="$PROJECT_DIR$/videos/videosui" />
           </set>
         </option>
       </GradleProjectSettings>

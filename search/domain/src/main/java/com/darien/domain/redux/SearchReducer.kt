@@ -21,7 +21,7 @@ class SearchReducer @Inject constructor(private val repository: SearchWordReposi
             }
             is SearchActions.WordTyped -> {
                 val matchingWords = repository.getWords(action.word)
-                prevState.copy(word = action.word, currWords = matchingWords.toMutableList())
+                prevState.copy(selectedWord = "", word = action.word, currWords = matchingWords.toMutableList())
             }
             is SearchActions.WordSelected -> {
                 prevState.copy(selectedWord = action.word)

@@ -8,7 +8,9 @@ import javax.inject.Inject
 class SearchWordRepository @Inject constructor(private val wordsDAO: WordsDAO) {
     suspend fun saveWord(word: Word): Word {
         val wordEntity = WordsEntity.fromWordToEntity(word)
-        wordsDAO.addWord(wordEntity)
+        if (!wordExists(word = word.word)) {
+            wordsDAO.addWord(wordEntity)
+        }
         return word
     }
 
@@ -23,5 +25,11 @@ class SearchWordRepository @Inject constructor(private val wordsDAO: WordsDAO) {
             }
         }
         return ans
+    }
+
+    //prevents adding an already existing word (there's probably a better way)
+    private suspend fun wordExists(word: String): Boolean {
+        val matchingWords = wordsDAO.getMatchingWords(query = word)
+        return matchingWords != null && matchingWords.isNotEmpty()
     }
 }

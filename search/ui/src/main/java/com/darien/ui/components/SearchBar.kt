@@ -12,8 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import com.darien.core.ui.appDims
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchBar(
@@ -29,7 +28,9 @@ fun SearchBar(
     trailingIcon: (@Composable () -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxWidth().padding(appDims().margin_md)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp)) {
         OutlinedTextField(
             modifier = modifier.fillMaxWidth(),
             value = value,
