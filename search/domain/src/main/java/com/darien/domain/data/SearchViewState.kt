@@ -1,4 +1,4 @@
-package com.darien.domain
+package com.darien.domain.data
 
 import com.darien.core.redux.DomainError
 import com.darien.core.redux.State

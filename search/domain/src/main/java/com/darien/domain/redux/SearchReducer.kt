@@ -1,8 +1,10 @@
-package com.darien.domain
+package com.darien.domain.redux
 
 import com.darien.core.redux.Reducer
 import com.darien.data.models.Word
 import com.darien.data.repositories.SearchWordRepository
+import com.darien.domain.data.SearchActions
+import com.darien.domain.data.SearchViewState
 import javax.inject.Inject
 
 class SearchReducer @Inject constructor(private val repository: SearchWordRepository) : Reducer<SearchViewState, SearchActions> {

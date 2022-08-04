@@ -2,10 +2,11 @@ package com.darien.ui
 
 import com.darien.core.redux.DomainError
 import com.darien.data.models.Word
-import com.darien.domain.SearchActions
-import com.darien.domain.SearchReducer
-import com.darien.domain.SearchStore
-import com.darien.domain.SearchViewState
+import com.darien.domain.data.SearchActions
+import com.darien.domain.redux.SearchReducer
+import com.darien.domain.redux.SearchStore
+import com.darien.domain.data.SearchViewState
+import com.darien.ui.viewmodels.SearchViewModel
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.*

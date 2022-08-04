@@ -1,6 +1,8 @@
-package com.darien.domain
+package com.darien.domain.redux
 
 import com.darien.core.redux.Store
+import com.darien.domain.data.SearchActions
+import com.darien.domain.data.SearchViewState
 import javax.inject.Inject
 
 class SearchStore @Inject constructor(reducer: SearchReducer) :

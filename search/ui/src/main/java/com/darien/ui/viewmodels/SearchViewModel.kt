@@ -1,13 +1,11 @@
-package com.darien.ui
+package com.darien.ui.viewmodels
 
 import com.darien.core.viewmodel.BaseViewModel
-import com.darien.domain.SearchActions
-import com.darien.domain.SearchStore
-import com.darien.domain.SearchViewState
+import com.darien.domain.data.SearchActions
+import com.darien.domain.redux.SearchStore
+import com.darien.domain.data.SearchViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel

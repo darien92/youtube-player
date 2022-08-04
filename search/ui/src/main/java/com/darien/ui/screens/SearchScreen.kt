@@ -4,6 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.darien.ui.viewmodels.SearchViewModel
 
 @Composable
 fun SearchScreen(
