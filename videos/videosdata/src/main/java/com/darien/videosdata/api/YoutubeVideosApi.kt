@@ -12,7 +12,7 @@ interface YoutubeVideosApi {
     fun getYoutubeVideos(
         @Query(Constants.QUERY_KEY)
         query: String,
-        @Query (Constants.PART_KEY)
+        @Query(Constants.PART_KEY)
         part: String = Constants.SNIPPET,
         @Query(Constants.API_KEY_KEY)
         key: String,

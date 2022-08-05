@@ -10,4 +10,4 @@ data class SearchViewState(
     val word: String,
     val selectedWord: String = "",
     val currWords: MutableList<Word> = emptyList<Word>().toMutableList()
-): State
+) : State

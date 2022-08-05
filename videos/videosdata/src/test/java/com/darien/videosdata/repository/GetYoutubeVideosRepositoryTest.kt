@@ -15,7 +15,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import java.io.IOException
-import java.lang.RuntimeException
 
 internal class GetYoutubeVideosRepositoryTest {
     private lateinit var sut: GetYoutubeVideosRepository
@@ -78,12 +77,30 @@ internal class GetYoutubeVideosRepositoryTest {
     fun getYoutubeVideosRepository_whenSuccess_shouldReturnSuccessfulResponse(): Unit =
         runBlocking {
             val response = sut.getVideos(query, key)
-            assertEquals(dsSuccessfulResponse.items?.get(0)?.id?.videoId.toString(), response.first().getOrNull()?.response?.first()?.id)
-            assertEquals(dsSuccessfulResponse.items?.get(0)?.snippet?.publishedAt.toString(), response.first().getOrNull()?.response?.first()?.publishedAt)
-            assertEquals(dsSuccessfulResponse.items?.get(0)?.snippet?.title.toString(), response.first().getOrNull()?.response?.first()?.title)
-            assertEquals(dsSuccessfulResponse.items?.get(0)?.snippet?.description.toString(), response.first().getOrNull()?.response?.first()?.description)
-            assertEquals(dsSuccessfulResponse.items?.get(0)?.snippet?.thumbnails?.medium?.url.toString(), response.first().getOrNull()?.response?.first()?.thumbnail)
-            assertEquals(dsSuccessfulResponse.items?.get(0)?.snippet?.channelTitle.toString(), response.first().getOrNull()?.response?.first()?.channelName)
+            assertEquals(
+                dsSuccessfulResponse.items?.get(0)?.id?.videoId.toString(),
+                response.first().getOrNull()?.response?.first()?.id
+            )
+            assertEquals(
+                dsSuccessfulResponse.items?.get(0)?.snippet?.publishedAt.toString(),
+                response.first().getOrNull()?.response?.first()?.publishedAt
+            )
+            assertEquals(
+                dsSuccessfulResponse.items?.get(0)?.snippet?.title.toString(),
+                response.first().getOrNull()?.response?.first()?.title
+            )
+            assertEquals(
+                dsSuccessfulResponse.items?.get(0)?.snippet?.description.toString(),
+                response.first().getOrNull()?.response?.first()?.description
+            )
+            assertEquals(
+                dsSuccessfulResponse.items?.get(0)?.snippet?.thumbnails?.medium?.url.toString(),
+                response.first().getOrNull()?.response?.first()?.thumbnail
+            )
+            assertEquals(
+                dsSuccessfulResponse.items?.get(0)?.snippet?.channelTitle.toString(),
+                response.first().getOrNull()?.response?.first()?.channelName
+            )
             assertNull(response.first().getOrNull()?.error)
         }
 
@@ -93,7 +110,10 @@ internal class GetYoutubeVideosRepositoryTest {
             setupEmptyList()
             val response = sut.getVideos(query, key)
             assertNull(response.first().getOrNull()?.response)
-            assertEquals(NetworkResponseErrorTypes.REQUEST_ERROR, response.first().getOrNull()?.error)
+            assertEquals(
+                NetworkResponseErrorTypes.REQUEST_ERROR,
+                response.first().getOrNull()?.error
+            )
         }
 
     @Test
@@ -102,7 +122,10 @@ internal class GetYoutubeVideosRepositoryTest {
             setupNetworkError()
             val response = sut.getVideos(query, key)
             assertNull(response.first().getOrNull()?.response)
-            assertEquals(NetworkResponseErrorTypes.NETWORK_ERROR, response.first().getOrNull()?.error)
+            assertEquals(
+                NetworkResponseErrorTypes.NETWORK_ERROR,
+                response.first().getOrNull()?.error
+            )
         }
 
     @Test
@@ -111,7 +134,10 @@ internal class GetYoutubeVideosRepositoryTest {
             setupRequestError()
             val response = sut.getVideos(query, key)
             assertNull(response.first().getOrNull()?.response)
-            assertEquals(NetworkResponseErrorTypes.REQUEST_ERROR, response.first().getOrNull()?.error)
+            assertEquals(
+                NetworkResponseErrorTypes.REQUEST_ERROR,
+                response.first().getOrNull()?.error
+            )
         }
 
     private fun setupSuccess() {

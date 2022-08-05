@@ -16,7 +16,8 @@ class GetYoutubeVideosRepository @Inject constructor(private val dataSource: Get
     suspend fun getVideos(query: String, key: String): Flow<Result<ResponseOrError>> {
         val dsResponse = dataSource.requestVideos(query = query, key = key, pageToken = pageToken)
         if (dsResponse.first().isSuccess && dsResponse.first().getOrNull() != null) {
-            if (dsResponse.first().getOrNull()!!.items != null) {val videos: MutableList<YoutubeVideoDomainModel> = ArrayList()
+            if (dsResponse.first().getOrNull()!!.items != null) {
+                val videos: MutableList<YoutubeVideoDomainModel> = ArrayList()
                 pageToken = dsResponse.first().getOrNull()!!.nextPageToken.toString()
                 val videosData = dsResponse.first().getOrNull()!!.items!!
                 for (currVideoData in videosData) {

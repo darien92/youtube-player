@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-internal class GetYoutubeVideosDataSourceTest{
+internal class GetYoutubeVideosDataSourceTest {
     private lateinit var sut: GetYoutubeVideosDataSource
     private val runtimeExceptionMessage = "RuntimeException"
     private val query = "hello"
@@ -25,6 +25,7 @@ internal class GetYoutubeVideosDataSourceTest{
     fun setUp() {
         setupSuccess()
     }
+
     @Test
     fun `Should call getYoutubeVideos from api once`(): Unit = runBlocking {
         sut.requestVideos(query = query, key = key)
@@ -39,19 +40,26 @@ internal class GetYoutubeVideosDataSourceTest{
     @Test
     fun `Should return exception on network error`(): Unit = runBlocking {
         setupError()
-        assertEquals(runtimeExceptionMessage, sut.requestVideos(query = query, key = key).first().exceptionOrNull()!!.message)
+        assertEquals(
+            runtimeExceptionMessage,
+            sut.requestVideos(query = query, key = key).first().exceptionOrNull()!!.message
+        )
     }
 
     private fun setupSuccess() {
         runBlocking {
-            whenever(api.getYoutubeVideos(query = query, key = key, pageToken = "")).thenReturn(responseMock)
+            whenever(api.getYoutubeVideos(query = query, key = key, pageToken = "")).thenReturn(
+                responseMock
+            )
         }
         sut = GetYoutubeVideosDataSource(api)
     }
 
     private fun setupError() {
         runBlocking {
-            whenever(api.getYoutubeVideos(query = query, key = key, pageToken = "")).thenThrow(runtimeException)
+            whenever(api.getYoutubeVideos(query = query, key = key, pageToken = "")).thenThrow(
+                runtimeException
+            )
         }
         sut = GetYoutubeVideosDataSource(api)
     }

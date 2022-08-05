@@ -28,9 +28,11 @@ fun SearchBar(
     trailingIcon: (@Composable () -> Unit)? = null,
     onValueChange: (String) -> Unit
 ) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
         OutlinedTextField(
             modifier = modifier.fillMaxWidth(),
             value = value,

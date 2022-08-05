@@ -6,14 +6,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetYoutubeVideosDataSource @Inject constructor(private val api: YoutubeVideosApi){
-    suspend fun requestVideos(query: String, key: String, pageToken: String = ""): Flow<Result<YoutubeVideosResponseModel>>{
+class GetYoutubeVideosDataSource @Inject constructor(private val api: YoutubeVideosApi) {
+    suspend fun requestVideos(
+        query: String,
+        key: String,
+        pageToken: String = ""
+    ): Flow<Result<YoutubeVideosResponseModel>> {
         return try {
             val response = api.getYoutubeVideos(query = query, key = key, pageToken = pageToken)
             flow {
                 emit(Result.success(response))
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             flow {
                 emit(Result.failure(e))
             }

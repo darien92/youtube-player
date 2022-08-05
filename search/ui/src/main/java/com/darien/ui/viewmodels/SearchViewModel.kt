@@ -2,8 +2,8 @@ package com.darien.ui.viewmodels
 
 import com.darien.core.viewmodel.BaseViewModel
 import com.darien.domain.data.SearchActions
-import com.darien.domain.redux.SearchStore
 import com.darien.domain.data.SearchViewState
+import com.darien.domain.redux.SearchStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject

@@ -13,10 +13,11 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-internal class SearchReducerTest{
+internal class SearchReducerTest {
     private lateinit var sut: SearchReducer
     private val repository: SearchWordRepository = mock()
-    private val initialState = SearchViewState(error = null, isLoading = false, word = "", selectedWord = "")
+    private val initialState =
+        SearchViewState(error = null, isLoading = false, word = "", selectedWord = "")
     private val wordStr = "Hello"
     private val mockedWord = Word(id = 123, word = wordStr)
     private val mockedList: MutableList<Word> = ArrayList()
@@ -81,7 +82,8 @@ internal class SearchReducerTest{
     @Test
     fun searchReducerTest_whenNewWord_shouldSetWordAndSelectedWordToNewWord(): Unit = runBlocking {
         val expectedState = initialState.copy(word = wordStr, selectedWord = wordStr)
-        val currState = sut.reduce(initialState, SearchActions.NewWord(wordId = 123, word = wordStr))
+        val currState =
+            sut.reduce(initialState, SearchActions.NewWord(wordId = 123, word = wordStr))
         assertEquals(initialState.currWords, currState.currWords)
         assertEquals(wordStr, currState.word)
         assertEquals(wordStr, currState.selectedWord)

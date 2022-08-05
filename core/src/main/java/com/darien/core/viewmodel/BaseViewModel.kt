@@ -8,7 +8,7 @@ import com.darien.core.redux.State
 import com.darien.core.redux.Store
 import kotlinx.coroutines.*
 
-open class BaseViewModel<S: State, A: Action> (
+open class BaseViewModel<S : State, A : Action>(
     private val store: Store<S, A>,
     dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
@@ -28,7 +28,8 @@ open class BaseViewModel<S: State, A: Action> (
      * Allows to handle coroutines errors
      */
     open fun handleError(exception: Throwable) {
-        Log.e("BaseViewModel",
+        Log.e(
+            "BaseViewModel",
             "CoroutineExceptionHandler: ${exception.localizedMessage}",
             exception
         )

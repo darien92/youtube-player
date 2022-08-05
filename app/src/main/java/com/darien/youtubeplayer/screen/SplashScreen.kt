@@ -10,8 +10,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.darien.youtubeplayer.R
 import com.darien.core.navigation.YoutubePlayerScreens
+import com.darien.youtubeplayer.R
 import kotlinx.coroutines.delay
 
 @Composable
