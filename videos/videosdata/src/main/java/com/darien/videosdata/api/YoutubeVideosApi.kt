@@ -17,6 +17,8 @@ interface YoutubeVideosApi {
         @Query(Constants.API_KEY_KEY)
         key: String,
         @Query(Constants.MAX_RESULTS_KEY)
-        maxResults: Int = Constants.MAX_RESULTS
+        maxResults: Int = Constants.MAX_RESULTS,
+        @Query(Constants.PAGE_TOKEN)
+        pageToken: String
     ): YoutubeVideosResponseModel
 }

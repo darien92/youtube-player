@@ -28,7 +28,7 @@ internal class GetYoutubeVideosDataSourceTest{
     @Test
     fun `Should call getYoutubeVideos from api once`(): Unit = runBlocking {
         sut.requestVideos(query = query, key = key)
-        verify(api, times(1)).getYoutubeVideos(query = query, key = key)
+        verify(api, times(1)).getYoutubeVideos(query = query, key = key, pageToken = "")
     }
 
     @Test
@@ -44,14 +44,14 @@ internal class GetYoutubeVideosDataSourceTest{
 
     private fun setupSuccess() {
         runBlocking {
-            whenever(api.getYoutubeVideos(query = query, key = key)).thenReturn(responseMock)
+            whenever(api.getYoutubeVideos(query = query, key = key, pageToken = "")).thenReturn(responseMock)
         }
         sut = GetYoutubeVideosDataSource(api)
     }
 
     private fun setupError() {
         runBlocking {
-            whenever(api.getYoutubeVideos(query = query, key = key)).thenThrow(runtimeException)
+            whenever(api.getYoutubeVideos(query = query, key = key, pageToken = "")).thenThrow(runtimeException)
         }
         sut = GetYoutubeVideosDataSource(api)
     }

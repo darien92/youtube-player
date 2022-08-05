@@ -9,4 +9,5 @@ object Constants {
     const val MAX_RESULTS_KEY = "maxResults"
     const val QUERY_KEY = "q"
     const val MAX_RESULTS = 10
+    const val PAGE_TOKEN = "pageToken"
 }

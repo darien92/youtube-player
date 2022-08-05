@@ -11,10 +11,13 @@ import java.io.IOException
 import javax.inject.Inject
 
 class GetYoutubeVideosRepository @Inject constructor(private val dataSource: GetYoutubeVideosDataSource) {
+    private var pageToken = ""
+
     suspend fun getVideos(query: String, key: String): Flow<Result<ResponseOrError>> {
-        val dsResponse = dataSource.requestVideos(query = query, key = key)
+        val dsResponse = dataSource.requestVideos(query = query, key = key, pageToken = pageToken)
         if (dsResponse.first().isSuccess && dsResponse.first().getOrNull() != null) {
             if (dsResponse.first().getOrNull()!!.items != null) {val videos: MutableList<YoutubeVideoDomainModel> = ArrayList()
+                pageToken = dsResponse.first().getOrNull()!!.nextPageToken.toString()
                 val videosData = dsResponse.first().getOrNull()!!.items!!
                 for (currVideoData in videosData) {
                     videos.add(
