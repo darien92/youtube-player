@@ -1,6 +1,8 @@
 package com.darien.videosdata.models.domain
 
-data class ResponseOrError(
-    val response: YoutubeVideoDomainModel?,
+import com.darien.core.network.NetworkResponseErrorTypes
 
+data class ResponseOrError(
+    val response: List<YoutubeVideoDomainModel>? = null,
+    val error: NetworkResponseErrorTypes? = null
 )
