@@ -24,7 +24,6 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 internal class SearchViewModelTest {
-
     private lateinit var sut: SearchViewModel
     private lateinit var store: SearchStore
     private val reducer: SearchReducer = mock()
