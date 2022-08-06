@@ -1,4 +1,4 @@
-package com.darien.ui.di
+package com.darien.core.di
 
 import dagger.Module
 import dagger.Provides
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class SearchCoroutinesModule {
+class CoroutinesModule {
     @Provides
     @Singleton
     fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
