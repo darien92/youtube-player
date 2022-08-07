@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.darien.core.navigation.YoutubePlayerScreens
 import com.darien.ui.screens.SearchScreen
-import com.darien.videosui.VideosScreen
+import com.darien.videosui.screens.VideosScreen
 import com.darien.youtubeplayer.screen.SplashScreen
 
 @Composable

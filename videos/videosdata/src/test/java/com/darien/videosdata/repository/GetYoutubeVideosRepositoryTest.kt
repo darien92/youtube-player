@@ -9,8 +9,6 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -33,7 +31,6 @@ internal class GetYoutubeVideosRepositoryTest {
 
     @Before
     fun setUp() {
-        setupSuccess()
         val items: MutableList<Item> = ArrayList()
         items.add(
             index = 0,
@@ -57,6 +54,7 @@ internal class GetYoutubeVideosRepositoryTest {
                 )
             )
         )
+
         dsSuccessfulResponse = YoutubeVideosResponseModel(
             etag = "123",
             items = items,
@@ -65,6 +63,7 @@ internal class GetYoutubeVideosRepositoryTest {
             pageInfo = null,
             regionCode = "123"
         )
+        setupSuccess()
     }
 
     @Test
@@ -79,29 +78,29 @@ internal class GetYoutubeVideosRepositoryTest {
             val response = sut.getVideos(query, key)
             assertEquals(
                 dsSuccessfulResponse.items?.get(0)?.id?.videoId.toString(),
-                response.first().getOrNull()?.response?.first()?.id
+                response.getOrNull()?.response?.first()?.id
             )
             assertEquals(
                 dsSuccessfulResponse.items?.get(0)?.snippet?.publishedAt.toString(),
-                response.first().getOrNull()?.response?.first()?.publishedAt
+                response.getOrNull()?.response?.first()?.publishedAt
             )
             assertEquals(
                 dsSuccessfulResponse.items?.get(0)?.snippet?.title.toString(),
-                response.first().getOrNull()?.response?.first()?.title
+                response.getOrNull()?.response?.first()?.title
             )
             assertEquals(
                 dsSuccessfulResponse.items?.get(0)?.snippet?.description.toString(),
-                response.first().getOrNull()?.response?.first()?.description
+                response.getOrNull()?.response?.first()?.description
             )
             assertEquals(
                 dsSuccessfulResponse.items?.get(0)?.snippet?.thumbnails?.medium?.url.toString(),
-                response.first().getOrNull()?.response?.first()?.thumbnail
+                response.getOrNull()?.response?.first()?.thumbnail
             )
             assertEquals(
                 dsSuccessfulResponse.items?.get(0)?.snippet?.channelTitle.toString(),
-                response.first().getOrNull()?.response?.first()?.channelName
+                response.getOrNull()?.response?.first()?.channelName
             )
-            assertNull(response.first().getOrNull()?.error)
+            assertNull(response.getOrNull()?.error)
         }
 
     @Test
@@ -109,10 +108,10 @@ internal class GetYoutubeVideosRepositoryTest {
         runBlocking {
             setupEmptyList()
             val response = sut.getVideos(query, key)
-            assertNull(response.first().getOrNull()?.response)
+            assertNull(response.getOrNull()?.response)
             assertEquals(
                 NetworkResponseErrorTypes.REQUEST_ERROR,
-                response.first().getOrNull()?.error
+                response.getOrNull()?.error
             )
         }
 
@@ -121,10 +120,10 @@ internal class GetYoutubeVideosRepositoryTest {
         runBlocking {
             setupNetworkError()
             val response = sut.getVideos(query, key)
-            assertNull(response.first().getOrNull()?.response)
+            assertNull(response.getOrNull()?.response)
             assertEquals(
                 NetworkResponseErrorTypes.NETWORK_ERROR,
-                response.first().getOrNull()?.error
+                response.getOrNull()?.error
             )
         }
 
@@ -133,19 +132,17 @@ internal class GetYoutubeVideosRepositoryTest {
         runBlocking {
             setupRequestError()
             val response = sut.getVideos(query, key)
-            assertNull(response.first().getOrNull()?.response)
+            assertNull(response.getOrNull()?.response)
             assertEquals(
                 NetworkResponseErrorTypes.REQUEST_ERROR,
-                response.first().getOrNull()?.error
+                response.getOrNull()?.error
             )
         }
 
     private fun setupSuccess() {
         runBlocking {
             whenever(dataSource.requestVideos(query = query, key = key)).thenReturn(
-                flow {
-                    emit(Result.success(dsSuccessfulResponse))
-                }
+                Result.success(dsSuccessfulResponse)
             )
         }
         sut = GetYoutubeVideosRepository(dataSource)
@@ -154,9 +151,7 @@ internal class GetYoutubeVideosRepositoryTest {
     private fun setupEmptyList() {
         runBlocking {
             whenever(dataSource.requestVideos(query, key)).thenReturn(
-                flow {
-                    emit(Result.success(emptyListResponse))
-                }
+                Result.success(emptyListResponse)
             )
         }
         sut = GetYoutubeVideosRepository(dataSource)
@@ -165,9 +160,7 @@ internal class GetYoutubeVideosRepositoryTest {
     private fun setupNetworkError() {
         runBlocking {
             whenever(dataSource.requestVideos(query, key)).thenReturn(
-                flow {
-                    emit(Result.failure(IOException()))
-                }
+                Result.failure(IOException())
             )
         }
         sut = GetYoutubeVideosRepository(dataSource)
@@ -176,9 +169,7 @@ internal class GetYoutubeVideosRepositoryTest {
     private fun setupRequestError() {
         runBlocking {
             whenever(dataSource.requestVideos(query, key)).thenReturn(
-                flow {
-                    emit(Result.failure(RuntimeException()))
-                }
+                Result.failure(RuntimeException())
             )
         }
         sut = GetYoutubeVideosRepository(dataSource)

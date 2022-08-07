@@ -6,7 +6,6 @@ import com.darien.core.redux.Reducer
 import com.darien.videosdata.repository.GetYoutubeVideosRepository
 import com.darien.videosdomain.data.VideosActions
 import com.darien.videosdomain.data.VideosViewState
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class VideosReducer @Inject constructor(private val repository: GetYoutubeVideosRepository) :
@@ -30,20 +29,23 @@ class VideosReducer @Inject constructor(private val repository: GetYoutubeVideos
             }
             is VideosActions.LoadVideos -> {
                 val response = repository.getVideos(query = action.query, key = action.key)
-                if (response.first().getOrNull()?.response != null) {
-                    prevState.videos.addAll(response.first().getOrNull()?.response!!)
-                    return prevState.copy(isLoading = false)
-                } else if (response.first().getOrNull()?.error != null && response.first()
+                if (response.getOrNull()?.response != null) {
+                    val videosInList = prevState.videos
+                    for (currVideo in response.getOrNull()!!.response!!) {
+                        videosInList.add(currVideo)
+                    }
+                    prevState.copy(isLoading = false, videos = videosInList)
+                } else if (response.getOrNull()?.error != null && response
                         .getOrNull()?.error == NetworkResponseErrorTypes.NETWORK_ERROR
                 ) {
-                    return prevState.copy(
+                    prevState.copy(
                         error = DomainError(
                             errorCode = 0,
                             errorMessage = "Network error"
                         )
                     )
                 } else {
-                    return prevState.copy(
+                    prevState.copy(
                         error = DomainError(
                             errorCode = 1,
                             errorMessage = "Request error"

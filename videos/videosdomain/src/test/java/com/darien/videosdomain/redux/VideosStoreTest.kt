@@ -16,7 +16,7 @@ internal class VideosStoreTest {
     private lateinit var sut: VideosStore
     private val reducer: VideosReducer = mock()
     private val initialState: VideosViewState =
-        VideosViewState(error = null, isLoading = false, isFirstLoading = true)
+        VideosViewState(error = null, isLoading = false, isFirstLoading = false)
     private val query = "Hello"
     private val key = "123"
     private val youtubeVideoDomainModel = YoutubeVideoDomainModel(

@@ -1,4 +1,4 @@
-package com.darien.ui.components
+package com.darien.videosui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,7 +8,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.darien.core.ui.appDims
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun LoadingView(
@@ -17,7 +17,7 @@ fun LoadingView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(appDims().margin_md),
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

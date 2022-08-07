@@ -10,6 +10,6 @@ class VideosStore @Inject constructor(reducer: VideosReducer) :
         initialState = VideosViewState(
             error = null,
             isLoading = false,
-            isFirstLoading = true
+            isFirstLoading = false
         ), reducer = reducer
     )

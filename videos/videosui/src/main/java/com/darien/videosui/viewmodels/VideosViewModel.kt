@@ -13,25 +13,17 @@ class VideosViewModel @Inject constructor(
     store: VideosStore,
     dispatcher: CoroutineDispatcher
 ) :
-    BaseViewModel<VideosViewState, VideosActions>(store, dispatcher) {
+    BaseViewModel<VideosViewState, VideosActions>(store = store, dispatcher = dispatcher) {
 
-    fun startLoading() {
+    fun loadVideosInitially(query: String, key: String) {
         handleAction(VideosActions.StartLoading)
-    }
-
-    fun stopLoading() {
+        handleAction(VideosActions.LoadVideos(query, key))
         handleAction(VideosActions.StopLoading)
     }
 
-    fun startLoadingInitially() {
+    fun loadVideos(query: String, key: String) {
         handleAction(VideosActions.StartLoadingFirstTime)
-    }
-
-    fun stopLoadingInitially() {
-        handleAction(VideosActions.StopLoadingFirstTime)
-    }
-
-    fun searchVideos(query: String, key: String) {
         handleAction(VideosActions.LoadVideos(query, key))
+        handleAction(VideosActions.StopLoadingFirstTime)
     }
 }

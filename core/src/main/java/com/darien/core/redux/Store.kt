@@ -2,6 +2,7 @@ package com.darien.core.redux
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * A [Store] is our state container for a given screen.
@@ -16,7 +17,7 @@ open class Store<S : State, A : Action>(
 ) {
 
     private val _state = MutableStateFlow(initialState)
-    val state: StateFlow<S> = _state
+    val state: StateFlow<S> = _state.asStateFlow()
 
     private val currentState: S
         get() = _state.value

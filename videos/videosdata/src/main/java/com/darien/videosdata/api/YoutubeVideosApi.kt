@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 interface YoutubeVideosApi {
     @GET(value = Constants.SEARCH_DIR)
-    fun getYoutubeVideos(
+    suspend fun getYoutubeVideos(
         @Query(Constants.QUERY_KEY)
         query: String,
         @Query(Constants.PART_KEY)

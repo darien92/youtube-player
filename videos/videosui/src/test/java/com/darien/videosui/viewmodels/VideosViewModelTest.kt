@@ -8,14 +8,8 @@ import com.darien.videosdomain.redux.VideosReducer
 import com.darien.videosdomain.redux.VideosStore
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.*
+import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -27,7 +21,7 @@ internal class VideosViewModelTest {
     private lateinit var store: VideosStore
     private val reducer: VideosReducer = mock()
     private val initialState =
-        VideosViewState(error = null, isLoading = false, isFirstLoading = true)
+        VideosViewState(error = null, isLoading = false, isFirstLoading = false)
     private val query = "hello"
     private val key = "123"
     private val youtubeVideoDomainModel = YoutubeVideoDomainModel(
@@ -76,60 +70,79 @@ internal class VideosViewModelTest {
     }
 
     @Test
-    fun `Should Set Loading to true on Start Loading action`(): Unit = runTest{
-        sut.startLoading()
-        delay(100)
-        assertTrue(sut.uiState.value.isLoading)
-    }
-
-    @Test
-    fun `Should Set Loading to false on Stop Loading action`(): Unit = runTest{
-        sut.stopLoading()
-        delay(100)
-        assertFalse(sut.uiState.value.isLoading)
-    }
-
-    @Test
-    fun `Should Set Loading FirstTime to true on Start Loading Initially action`(): Unit = runTest{
-        sut.startLoadingInitially()
-        delay(100)
-        assertTrue(sut.uiState.value.isFirstLoading)
-    }
-
-    @Test
-    fun `Should Set Loading FirstTime to false on Stop Loading Initially action`(): Unit = runTest{
-        sut.stopLoadingInitially()
-        delay(100)
-        assertFalse(sut.uiState.value.isFirstLoading)
-    }
-
-    @Test
     fun `Should update videos on successful response`(): Unit = runTest {
-        sut.searchVideos(query, key)
-        delay(100)
-        assertFalse(sut.uiState.value.isLoading)
-        assertEquals(youtubeVideosResponse, sut.uiState.value.videos)
-        assertNull(sut.uiState.value.error)
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.loadVideosInitially(query, key)
+            delay(100)
+            assertFalse(sut.uiState.value.isLoading)
+            assertEquals(youtubeVideosResponse, sut.uiState.value.videos)
+            assertNull(sut.uiState.value.error)
+        }
+        job.cancel()
+    }
+
+    @Test
+    fun `Should update videos on successful response pagination`(): Unit = runTest {
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.loadVideos(query, key)
+            delay(100)
+            assertFalse(sut.uiState.value.isLoading)
+            assertEquals(youtubeVideosResponse, sut.uiState.value.videos)
+            assertNull(sut.uiState.value.error)
+        }
+        job.cancel()
     }
 
     @Test
     fun `Should Get network error on network error`(): Unit = runTest {
         setupNetworkError()
-        sut.searchVideos(query, key)
-        delay(100)
-        assertFalse(sut.uiState.value.isLoading)
-        assertEquals(initialState.videos, sut.uiState.value.videos)
-        assertEquals(networkError, sut.uiState.value.error)
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.loadVideosInitially(query, key)
+            delay(1000)
+            assertFalse(sut.uiState.value.isLoading)
+            assertEquals(initialState.videos, sut.uiState.value.videos)
+            assertEquals(networkError, sut.uiState.value.error)
+        }
+        job.cancel()
     }
 
     @Test
     fun `Should Get request error on request error`(): Unit = runTest {
-        setupRequestError()
-        sut.searchVideos(query, key)
-        delay(100)
-        assertFalse(sut.uiState.value.isLoading)
-        assertEquals(initialState.videos, sut.uiState.value.videos)
-        assertEquals(requestError, sut.uiState.value.error)
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            setupRequestError()
+            sut.loadVideosInitially(query, key)
+            delay(100)
+            assertFalse(sut.uiState.value.isLoading)
+            assertEquals(initialState.videos, sut.uiState.value.videos)
+            assertEquals(requestError, sut.uiState.value.error)
+        }
+        job.cancel()
+    }
+
+    @Test
+    fun `Should Get network error on network error pagination`(): Unit = runTest {
+        setupNetworkError()
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            sut.loadVideos(query, key)
+            delay(1000)
+            assertFalse(sut.uiState.value.isLoading)
+            assertEquals(initialState.videos, sut.uiState.value.videos)
+            assertEquals(networkError, sut.uiState.value.error)
+        }
+        job.cancel()
+    }
+
+    @Test
+    fun `Should Get request error on request error pagination`(): Unit = runTest {
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
+            setupRequestError()
+            sut.loadVideos(query, key)
+            delay(100)
+            assertFalse(sut.uiState.value.isLoading)
+            assertEquals(initialState.videos, sut.uiState.value.videos)
+            assertEquals(requestError, sut.uiState.value.error)
+        }
+        job.cancel()
     }
 
     private fun setupSuccess() {

@@ -10,7 +10,6 @@ import com.darien.videosdomain.data.VideosViewState
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -125,9 +124,7 @@ internal class VideosReducerTest {
     private fun setupSuccess() {
         runBlocking {
             whenever(repository.getVideos(query, key)).thenReturn(
-                flow {
-                    emit(Result.success(successfulResponse))
-                }
+                Result.success(successfulResponse)
             )
         }
         sut = VideosReducer(repository)
@@ -136,9 +133,7 @@ internal class VideosReducerTest {
     private fun setupNetworkError() {
         runBlocking {
             whenever(repository.getVideos(query, key)).thenReturn(
-                flow {
-                    emit(Result.success(networkErrorResponse))
-                }
+                Result.success(networkErrorResponse)
             )
         }
         sut = VideosReducer(repository)
@@ -147,9 +142,7 @@ internal class VideosReducerTest {
     private fun setupRequestError() {
         runBlocking {
             whenever(repository.getVideos(query, key)).thenReturn(
-                flow {
-                    emit(Result.success(requestErrorResponse))
-                }
+                Result.success(requestErrorResponse)
             )
         }
         sut = VideosReducer(repository)

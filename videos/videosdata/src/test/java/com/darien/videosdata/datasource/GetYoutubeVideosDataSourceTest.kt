@@ -7,7 +7,6 @@ import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.TestCase.assertEquals
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -34,7 +33,7 @@ internal class GetYoutubeVideosDataSourceTest {
 
     @Test
     fun `Should return successful result in successful response`(): Unit = runBlocking {
-        assertEquals(responseMock, sut.requestVideos(query = query, key = key).first().getOrNull())
+        assertEquals(responseMock, sut.requestVideos(query = query, key = key).getOrNull())
     }
 
     @Test
@@ -42,7 +41,7 @@ internal class GetYoutubeVideosDataSourceTest {
         setupError()
         assertEquals(
             runtimeExceptionMessage,
-            sut.requestVideos(query = query, key = key).first().exceptionOrNull()!!.message
+            sut.requestVideos(query = query, key = key).exceptionOrNull()!!.message
         )
     }
 
