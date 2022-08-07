@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.darien.videosui.components.LoadingView
 import com.darien.videosui.components.NavigationView
+import com.darien.videosui.components.VideosListContainer
 import com.darien.videosui.viewmodels.VideosViewModel
 
 
@@ -26,7 +27,7 @@ fun VideosScreen(
 
     val apiKey = stringResource(id = com.darien.videosdata.R.string.youtube_api_key)
 
-    LaunchedEffect(key1 = state.videos){
+    LaunchedEffect(key1 = state.videos) {
         if (state.videos.isEmpty()) {
             viewModel.loadVideosInitially(query = videoName, key = apiKey)
         }
@@ -35,12 +36,17 @@ fun VideosScreen(
         NavigationView {
             navController.popBackStack()
         }
-        if (state.videos.isNotEmpty()){
-
-            Text(text = "videos loaded")
-        } else if (state.isFirstLoading){
+        if (state.videos.isNotEmpty()) {
+            VideosListContainer(
+                videos = state.videos,
+                isLoading = state.isLoading,
+                onListReachesEnd = { viewModel.loadVideos(query = videoName, key = apiKey) }
+            ) {
+                //TODO: Handle Video click if needed
+            }
+        } else if (state.isFirstLoading) {
             LoadingView()
-        } else if(state.error != null) {
+        } else if (state.error != null) {
             Text(text = "error")
         }
     }
