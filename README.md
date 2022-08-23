@@ -1,4 +1,4 @@
-#Youtube Player
+# Youtube Player
 This app allows the user to search videos for an specified word in Youtube.
 
 DISCLAIMER: The goal of this app is to play with MVI, Redux, modularization and its integration with.
